@@ -1,4 +1,3 @@
-// events.js
 const express = require("express");
 const db = require("../db/dbConn");
 const router = express.Router();
@@ -6,7 +5,7 @@ const router = express.Router();
 router.post("/events", (req, res) => {
   const { event_name, event_date } = req.body;
 
-  const query = `INSERT INTO events (event_name, event_date) VALUES (?, ?)`;
+  const query = `INSERT INTO events (event_name, event_date) VALUES (?, DATE(?))`;
   db.query(query, [event_name, event_date], (err, results) => {
     if (err) {
       console.error(err);

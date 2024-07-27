@@ -5,8 +5,16 @@ const createTableQuery = `
   CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_name VARCHAR(255) NOT NULL,
-    event_date DATETIME NOT NULL,
+    event_date DATE NOT NULL,
     description TEXT
+  )
+`;
+
+const createUsersTableQuery = `
+  CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE
   )
 `;
 
@@ -25,6 +33,13 @@ const setupDatabase = async () => {
           return;
         }
         console.log("Switched to the 'events' database.");
+        db.query(createUsersTableQuery, (err) => {
+          if (err) {
+            console.error("Error creating users table:", err.stack);
+            return;
+          }
+          console.log("Users table created or already exists.");
+        });
 
         db.query(createTableQuery, (err) => {
           if (err) {
