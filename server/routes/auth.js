@@ -26,10 +26,10 @@ router.post("/signup", async (req, res) => {
 
   try {
     const data = await cognito.signUp(params).promise();
-
-    // Store user information in the database
-    const query = `INSERT INTO users (username, email) VALUES (?, ?)`;
-    db.query(query, [username, email], (err, results) => {
+    console.log(data);
+    const userId = data.UserSub; // Extract user sub (user ID)
+    const query = `INSERT INTO users (id, username, email) VALUES (?, ?, ?)`;
+    db.query(query, [userId, username, email], (err, results) => {
       if (err) {
         console.error("Error storing user information:", err);
         res.status(500).json({

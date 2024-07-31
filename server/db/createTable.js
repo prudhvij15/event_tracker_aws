@@ -3,11 +3,14 @@ const db = require("./dbConn");
 const createDatabaseQuery = `CREATE DATABASE IF NOT EXISTS ${process.env.database}`;
 const createTableQuery = `
   CREATE TABLE IF NOT EXISTS events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    event_name VARCHAR(255) NOT NULL,
-    event_date DATE NOT NULL,
-    description TEXT
-  )
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_name VARCHAR(255) NOT NULL,
+  event_date DATE  NOT NULL,
+  description TEXT,
+  user_id INT NOT NULL,
+  notification_time DATE NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+)
 `;
 
 const createUsersTableQuery = `
@@ -15,6 +18,7 @@ const createUsersTableQuery = `
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE
+
   )
 `;
 
